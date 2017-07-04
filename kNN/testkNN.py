@@ -11,4 +11,7 @@ import numpy as np
 # ax.scatter(datingDataMat[:,0], datingDataMat[:,1], 15.0*np.array(datingLabels),  15.0*np.array(datingLabels))
 # plt.show()
 
-kNN.datingClassTest()
+# kNN.datingClassTest()
+
+d = {'a':1}
+print(d.items())

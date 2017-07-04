@@ -1,5 +1,6 @@
 import numpy as np
 import operator
+from os import listdir
 
 str2num = {
     'largeDoses':3,
@@ -13,6 +14,7 @@ def file2matrix(filename):                              #将文本记录转化�
     fr = open(filename)
     arrayOLines = fr.readlines()                        # readlines()自动将文件内容分析成一个行的列表，该列表可以由 python 的 for... in ... 结构进行处理
     numberOfLines = len(arrayOLines)
+
     returnMat = np.zeros((numberOfLines, 3))
     classLabelVector = []
     index = 0
@@ -48,7 +50,7 @@ def classify0(inX, dataSet, labels, k):
     dataSetSize = dataSet.shape[0]                      #样本个数
     diffMat = np.tile(inX, (dataSetSize, 1)) - dataSet  #将需要分类数据变为(dataSetSize,1)，减去训练数据
     sqDiffMat = diffMat ** 2
-    sqDistances = sqDiffMat.sum(axis = 1)               #每一行加起来
+    sqDistances = sqDiffMat.sum(axis = 1)               #每一行加起来,返回的是一个列向量，当axis = 0时，返回的是一个行向量
     distances = sqDistances ** 0.5
     sortedDistIndicies = distances.argsort()            #排序，将distances中的元素从小到大排列，提取其对应的index
     classCount = {}
@@ -72,3 +74,14 @@ def datingClassTest():
         if(classifierResult != datingLabels[i]):
             errorCount = errorCount + 1
     print('error rate is %f' % (errorCount/numTestVecs))
+
+    #将每一张图像转化为测试向量
+def img2vector(filename):
+    returnVect = np.zeros((1, 1024))
+    fr = open(filename)
+    for i in range(32):
+        lineStr = fr.readline()
+        returnVect[0, i*32:(i+1)*32] = int(lineStr)
+    return returnVect
+
+    #
