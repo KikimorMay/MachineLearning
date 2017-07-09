@@ -1,6 +1,6 @@
 import numpy as np
 import operator
-from os import listdir
+from os import listdir                                #从os模块中导入函数listdir,它可以列出给定目录的文件名
 
 str2num = {
     'largeDoses':3,
@@ -81,7 +81,38 @@ def img2vector(filename):
     fr = open(filename)
     for i in range(32):
         lineStr = fr.readline()
-        returnVect[0, i*32:(i+1)*32] = int(lineStr)
+        for j in range(32):
+            returnVect[0,32*i+j] = int(lineStr[j])
     return returnVect
 
-    #
+    #手写数字识别系统的测试代码
+def handwritingClasstest():
+    hwlabels = []
+    trainingFileList = listdir('trainingDigits')       #从文件夹中获得目录列表
+    m = len(trainingFileList)
+    trainingMat = np.zeros((m, 1024))                    #每个图像共1024个像素
+    for i in range(m):
+        fileNameStr = trainingFileList[i]
+        fileStr = fileNameStr.split('.')[0]              #将每个文件名‘0_0.txt’ 用.分开 为 ‘0_0’， ‘txt’
+        classNumStr = int(fileStr.split('_')[0])
+        hwlabels.append(classNumStr)                     #将每张图的类别分别append到hwlabels里面
+        trainingMat[i, :] = img2vector('trainingDigits/%s' %fileNameStr)
+    testFileList = listdir('testDigits')
+    errorCount = 0.0
+    mTest = len(testFileList)
+    for i in range(mTest):
+        fileNameStr = testFileList[i]
+        fileStr = fileNameStr.split('.')[0]
+        classNumStr = int(fileStr.split('_')[0])
+        testMat = img2vector('testDigits/%s' %fileNameStr)
+        classifierResult = classify0(testMat, trainingMat, hwlabels, 3)
+        print('the real class is %d, the classifierResult is %d' %(classNumStr, classifierResult))
+        if(classNumStr != classifierResult):
+            errorCount = errorCount + 1.0
+    print(type(mTest), type(errorCount))
+
+    print('the total number of error classifier is %f' % errorCount)
+    print('the error rate is %f ' % (errorCount / float(mTest)))
+
+
+
