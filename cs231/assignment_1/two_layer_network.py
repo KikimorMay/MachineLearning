@@ -1,4 +1,4 @@
-from assignment_1.cs231n.features import color_histogram_hsv, hog_feature
+#from assignment_1.cs231n.features import color_histogram_hsv, hog_feature
 import random
 import numpy as np
 from knn import get_CIFAR10_data
@@ -16,6 +16,7 @@ def dataprepocessing(X_train, X_val, X_test):  # 对数据进行预处理，实�
     data_mean = np.mean(X_train, axis=0)
     X_train = X_train - data_mean
     X_test = X_test - data_mean
+
     return X_train, X_test, X_val
 
 
@@ -83,10 +84,8 @@ with tf.Session() as sess:
         loss_, acc, learning_rate_ = sess.run([loss, accuracy, learning_rate],
                                           feed_dict={X_batch: X_train, Y_batch: y_train_})
         loss_2, acc_2 = sess.run([loss, accuracy], feed_dict={X_batch: X_test, Y_batch: y_test_})
-        loss_train.append(loss_);
-        acc_train.append(acc)
-        loss_test.append(loss_2);
-        acc_test.append(acc_2)
+        loss_train.append(loss_);   acc_train.append(acc)
+        loss_test.append(loss_2);   acc_test.append(acc_2)
         print(learning_rate_)
         print('the training set:%d: loss:%f, acc = %f' % (i, loss_, acc))
         print('the test set:%d: loss:%f, acc:%f\n' % (i, loss_2, acc_2))

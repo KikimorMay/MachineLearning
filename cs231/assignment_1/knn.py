@@ -1,4 +1,4 @@
-from assignment_1.cs231n.features import color_histogram_hsv, hog_feature
+#from assignment_1.cs231n.features import color_histogram_hsv, hog_feature
 import random
 import numpy as np
 from assignment_1.cs231n.data_utils import load_CIFAR10
@@ -6,7 +6,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 
 def get_CIFAR10_data(num_training = 49000, num_validation = 1000, num_test = 1000):
-    cifar10_dir = 'cs231n\\cifar-10-python'
+    cifar10_dir = 'cs231n/cifar-10-python'
     X_train, y_train, X_test, y_test = load_CIFAR10(cifar10_dir)
 
     mask = list(range(num_training, num_training  + num_validation))
